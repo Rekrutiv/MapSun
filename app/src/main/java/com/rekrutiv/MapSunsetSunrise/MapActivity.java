@@ -51,7 +51,7 @@ import java.util.TimeZone;
 
 import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
 import com.rekrutiv.MapSunsetSunrise.R;
-import com.rekrutiv.MapSunsetSunrise.models.PlaceInfo;
+
 
 /**
  * Created by User on 10/2/2017.
@@ -108,7 +108,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
     private GoogleApiClient mGoogleApiClient;
-    private PlaceInfo mPlace;
+
     private Marker mMarker;
 
     @Override
@@ -179,35 +179,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 if(list.size() > 0){
                     Address address = list.get(0);
                 Log.d(TAG, "onClick: clicked place info");
-                GpsTracker  gpsTrack= new GpsTracker(MapActivity.this);
+
                 TimeZone timezone = TimeZone.getDefault();
                 String timezoneId = timezone.getID();
-                    double latitude = gpsTrack.getLatitude();
-                    double longitude = gpsTrack.getLongitude();
+
                com.luckycatlabs.sunrisesunset.dto.Location location =
-                       new com.luckycatlabs.sunrisesunset.dto.Location(String.valueOf(latitude), String.valueOf(longitude));
+                       new com.luckycatlabs.sunrisesunset.dto.Location(String.valueOf(address.getLatitude()), String.valueOf(address.getLongitude()));
                 SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, timezoneId);
                 String officialSunrise = calculator.getOfficialSunriseForDate(Calendar.getInstance());
                 String officialSunset = calculator.getOfficialSunsetForDate(Calendar.getInstance());
-                    Toast.makeText(MapActivity.this, ""+officialSunrise+" "+officialSunset, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MapActivity.this, "Sunrise"+officialSunrise+" Sunset"+officialSunset, Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-     /* mPlacePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
-                try {
-                    startActivityForResult(builder.build(MapActivity.this), PLACE_PICKER_REQUEST);
-                } catch (GooglePlayServicesRepairableException e) {
-                    Log.e(TAG, "onClick: GooglePlayServicesRepairableException: " + e.getMessage() );
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    Log.e(TAG, "onClick: GooglePlayServicesNotAvailableException: " + e.getMessage() );
-                }
-            }*/
 
 
 
@@ -237,7 +222,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM,
                     address.getAddressLine(0));
 
+            TimeZone timezone = TimeZone.getDefault();
+            String timezoneId = timezone.getID();
 
+            com.luckycatlabs.sunrisesunset.dto.Location location =
+                    new com.luckycatlabs.sunrisesunset.dto.Location(String.valueOf(address.getLatitude()), String.valueOf(address.getLongitude()));
+            SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, timezoneId);
+            String officialSunrise = calculator.getOfficialSunriseForDate(Calendar.getInstance());
+            String officialSunset = calculator.getOfficialSunsetForDate(Calendar.getInstance());
+            Toast.makeText(MapActivity.this, "Sunrise"+officialSunrise+" Sunset"+officialSunset, Toast.LENGTH_SHORT).show();
 
 
         }
@@ -274,7 +267,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage() );
         }
     }
-
 
 
     private void moveCamera(LatLng latLng, float zoom, String title){

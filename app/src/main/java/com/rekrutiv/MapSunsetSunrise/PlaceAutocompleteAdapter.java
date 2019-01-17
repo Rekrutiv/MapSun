@@ -1,20 +1,5 @@
 package com.rekrutiv.MapSunsetSunrise;
 
-/*
- * Copyright (C) 2015 Google Inc. All Rights Reserved.
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
 
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -42,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,7 +35,7 @@ import java.util.concurrent.TimeUnit;
  * {@link AutocompletePrediction} results from the API are frozen and stored directly in this
  * adapter. (See {@link AutocompletePrediction#freeze()}.)
  * <p>
- * Note that this adapter requires a valid {@link com.google.android.gms.common.api.GoogleApiClient}.
+ * Note that this adapter requires a valid {@link GoogleApiClient}.
  * The API client must be maintained in the encapsulating Activity, including all lifecycle and
  * connection states. The API client must be connected with the {@link Places#GEO_DATA_API} API.
  */
@@ -81,7 +67,7 @@ public class PlaceAutocompleteAdapter
     /**
      * Initializes with a resource for text rows and autocomplete query bounds.
      *
-     * @see android.widget.ArrayAdapter#ArrayAdapter(android.content.Context, int)
+     * @see ArrayAdapter#ArrayAdapter(Context, int)
      */
     public PlaceAutocompleteAdapter(Context context, GoogleApiClient googleApiClient,
                                     LatLngBounds bounds, AutocompleteFilter filter) {
